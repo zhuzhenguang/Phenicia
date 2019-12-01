@@ -6,11 +6,11 @@ using Microsoft.Extensions.Hosting;
 using Phoenicia.Infrastructures;
 using Phoenicia.Infrastructures.Bootstrap;
 
-namespace Phoenicia
+namespace Phoenicia.Test.Base
 {
-    public class Startup
+    public class FakeStartup
     {
-        public Startup(IConfiguration configuration)
+        public FakeStartup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -21,7 +21,8 @@ namespace Phoenicia
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            Bootstrapper.Start(services, new SqlServerDatabase());
+            services.AddMvc().AddApplicationPart(typeof(Startup).Assembly);
+            Bootstrapper.Start(services, new InMemoryDatabase());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
