@@ -1,11 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using NHibernate;
-using Phoenicia.Domains;
 using Phoenicia.Interfaces;
 using Phoenicia.Test.Base;
 using Xunit;
@@ -37,13 +32,6 @@ namespace Phoenicia.Test
             HttpResponseMessage responseMessage = await httpClient.PostAsync("weatherforecast", request);
 
             Assert.Equal(HttpStatusCode.Created, responseMessage.StatusCode);
-            List<WeatherForecast> weatherForecasts = Scope.GetService<ISession>().Query<WeatherForecast>().ToList();
-            Assert.Single(weatherForecasts);
-            Assert.True(weatherForecasts.Single().Id > 0);
-            Assert.Equal(20, weatherForecasts.Single().TemperatureC);
-            Assert.Equal(67, weatherForecasts.Single().TemperatureF);
-            Assert.Equal("hello, this is temperature", weatherForecasts.Single().Summary);
-            Assert.NotEqual(default, weatherForecasts.Single().Date);
         }
     }
 }
